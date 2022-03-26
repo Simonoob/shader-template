@@ -1,5 +1,5 @@
 uniform float uTime;
-uniform float uIntensity;
+uniform float uSpeed;
 uniform float uBlocks;
 uniform sampler2D uTexture;
 uniform vec2 uTextureResolution;
@@ -30,16 +30,14 @@ void main()
 {
     vec2 uv = vUV;
     float time = uTime;
-    time *= 0.001;
+    time *= 0.001 * uSpeed;
+
+    //have a safe border around the image to distort into / zoom the image in
+    uv = mix(vec2(0.1), vec2(0.9), uv);
 
     //get aspect ratios
     float surfaceRatio = uSurfaceResolution.x/uSurfaceResolution.y;
     float textureRatio = uTextureResolution.x/uTextureResolution.y;
-    
-    uv = getAspectRatio(uv, surfaceRatio, textureRatio);
-
-    //have a safe border around the image to distort into / zoom the image in
-    uv = mix(vec2(0.1), vec2(0.9), uv);
 
 
     //sample block instead of individual pixel
@@ -48,9 +46,12 @@ void main()
         floor(uv.y * uBlocks)/uBlocks
     );
 
+    //Correct aspect ratio for Texture rendeding
+    uv = getAspectRatio(uv, surfaceRatio, textureRatio);
+
     vec2 distortion = 0.1 * vec2(
-        sin(time*0.3 + block.x*5.0 + block.y*2.0), 
-        cos(time*0.2 + block.x*5.5 + block.y*2.5)
+        sin(time*0.3 + block.x*1.5 + block.y*2.0), 
+        cos(time*0.2 + block.x*2.5 + block.y*2.5)
         );
 
     //add color

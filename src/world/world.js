@@ -1,15 +1,13 @@
 import Experience from '../experience'
 import fragmentShader from '../shaders/fragment.glsl'
 import vertexShader from '../shaders/vertex.glsl'
-import doggo from '/static/images/doggo.jpeg'
 import * as THREE from 'three'
 
 export default class World {
-	constructor () {
+	constructor() {
 		this.experience = new Experience()
 		this.scene = this.experience.scene
 		this.params = this.experience.params
-
 
 		const textureLoader = new THREE.TextureLoader()
 
@@ -26,27 +24,25 @@ export default class World {
 						y: geometry.parameters.height,
 					},
 				},
-				uIntensity: { value: this.params.intensity },
+				uSpeed: { value: this.params.speed },
 				uTexture: { value: undefined },
 				uTextureResolution: {
 					value: { x: 0, y: 0 },
 				},
-				uBlocks: { value: 12 },
+				uBlocks: { value: this.params.blocks },
 			},
 		})
 
-		textureLoader.load(doggo,
-			(texture)=>{
-				material.uniforms.uTexture.value = texture
-				material.uniforms.uTextureResolution.value = {
-					x: texture.image.width,
-					y: texture.image.height
-				}
-			})
+		textureLoader.load(this.params.texture, texture => {
+			material.uniforms.uTexture.value = texture
+			material.uniforms.uTextureResolution.value = {
+				x: texture.image.width,
+				y: texture.image.height,
+			}
+		})
 
 		this.shaderMesh = new THREE.Mesh(geometry, material)
 		this.scene.add(this.shaderMesh)
-
 
 		window.requestAnimationFrame(() => this.updateVaryingUniforms())
 	}

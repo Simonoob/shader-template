@@ -6,6 +6,7 @@
 html,
 body {
 	height: 100vh;
+	background-color: #9AB0D6;
 }
 
 .webgl {
@@ -13,8 +14,8 @@ body {
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 700px;
-	height: 700px;
+	width: 100vmin;
+	height: 100vmin;
 	max-width: 100vmin;
 	max-height: 100vmin;
 }

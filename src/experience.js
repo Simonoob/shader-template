@@ -4,7 +4,9 @@ import Time from './utils/time'
 import Camera from './camera'
 import Renderer from './utils/renderer'
 import World from './world/world'
-import Controls from './world/controls'
+import Resources from './utils/resources'
+import sources from './sources'
+import Debug from './world/debug'
 
 let instance = null
 
@@ -19,11 +21,11 @@ export default class Experience {
 		//setup
 		this.sizes = new Sizes()
 		this.time = new Time()
+		this.debug = new Debug()
 		this.scene = new THREE.Scene()
+		this.resources = new Resources(sources)
 		this.camera = new Camera()
 		this.renderer = new Renderer()
-		this.controls = new Controls()
-
 		this.world = new World()
 
 		//event listeners
@@ -37,6 +39,7 @@ export default class Experience {
 	}
 	update() {
 		this.camera.update()
+		this.world.update()
 		this.renderer.update()
 	}
 }

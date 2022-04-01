@@ -2,7 +2,6 @@ import Experience from '../experience'
 import fragmentShader from '../shaders/fragment.glsl'
 import vertexShader from '../shaders/vertex.glsl'
 import * as THREE from 'three'
-import debounce from '../utils/debounce'
 
 export default class ShaderPlane {
 	constructor() {
@@ -28,6 +27,10 @@ export default class ShaderPlane {
 						y: this.geometry.parameters.height,
 					},
 				},
+				uCursor: { value: new THREE.Vector2(0) },
+				uCursorHover: { value: false },
+				uCursorEnter: { value: false },
+				uCursorLeave: { value: false },
 				uSpeed: { value: 1 },
 				uTexture: { value: this.resources.items.guyProfileTexture },
 				uTextureResolution: {
@@ -36,7 +39,7 @@ export default class ShaderPlane {
 						y: this.resources.items.guyProfileTexture.image.height,
 					},
 				},
-				uBlocks: { value: 3 },
+				uBlocks: { value: 12 },
 			},
 		})
 
@@ -83,14 +86,13 @@ export default class ShaderPlane {
 		this.debugFolder.addInput(this.material.uniforms.uBlocks, 'value', {
 			step: 1,
 			min: 1,
-			max: 20,
+			max: 50,
 			label: 'Squares',
 		})
 	}
 
 	update = () => {
 		const uniforms = this.shaderMesh.material.uniforms
-
 		uniforms.uTime.value = this.experience.time.elapsed
 	}
 }

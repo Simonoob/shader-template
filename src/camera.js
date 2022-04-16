@@ -53,6 +53,7 @@ export default class Camera {
 		this.controls.target = new THREE.Vector3(0, 1, 0)
 		this.controls.enableDamping = true
 		this.controls.autoRotate = true
+        this.controls.enablePan = false
 		this.controls.autoRotateSpeed = 0.2
 		this.controls.minDistance = 2.5
 		this.controls.maxDistance = 10
